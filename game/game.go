@@ -18,6 +18,7 @@ var ErrCellsGridHeigthRequired = errors.New("cells grid heigth is required")
 // ErrPopulateNil thrown when trying to populate with a nil pattern.
 var ErrPopulateNil = errors.New("trying to populate with nil")
 
+// Game principal struct to handle the Conway's Game of Life information.
 type Game struct {
 	// Width represents the actual cells matrix width.
 	Width int
@@ -56,7 +57,7 @@ func (g *Game) Populate(pattern [][]bool) error {
 	return nil
 }
 
-// Update is the main function of the game's engine.
+// Update is the principal function of the game's engine.
 // It iterate through all the cells and verifies the Conway's Game Of Life rule set.
 // Updates the whole cells grid to the next generationerrn of cells statuses.
 func (g *Game) Update() {
@@ -66,7 +67,7 @@ func (g *Game) Update() {
 		for x := range rows {
 			cellState := g.CellsGrid[y][x]
 			liveNeighbors := g.countLiveNeighbors(y, x)
-			if stayAlive(cellState, liveNeighbors) {
+			if live(cellState, liveNeighbors) {
 				newCellsGeneration[y][x] = true
 			}
 		}
@@ -75,36 +76,38 @@ func (g *Game) Update() {
 	g.CellsGrid = newCellsGeneration
 }
 
-// countNeighbors counts all the live neighbors of a current cell.
+// countLiveNeighbors counts all the live neighbors of a current cell.
 // The 8 adjacent positions to the cell are considered the neighbors.
-// Returns the number of neighbors that are alive.
+// Returns the number of neighbors that are alive. Edges have to be treated
+// in a special way, for the multiple combinations (only one edge, overlapping, etc.)
+// Evaluation points have to be moved.
 func (g *Game) countLiveNeighbors(y, x int) int {
 	count := 0
 
-	initialrow := -1
-	initialcol := -1
+	initialRow := -1
+	initialCol := -1
 
-	limitrow := 1
-	limitcol := 1
+	limitRow := 1
+	limitCol := 1
 
-	if y == 0 {
-		initialrow = 0
+	if lowerEdge(y) {
+		initialRow = 0
 	}
 
-	if x == 0 {
-		initialcol = 0
+	if leftEdge(x) {
+		initialCol = 0
 	}
 
-	if y == g.Height-1 {
-		limitrow = 0
+	if upperEdge(y, g.Height) {
+		limitRow = 0
 	}
 
-	if x == g.Width-1 {
-		limitcol = 0
+	if rightEdge(x, g.Width) {
+		limitCol = 0
 	}
 
-	for row := initialrow; row <= limitrow; row++ {
-		for col := initialcol; col <= limitcol; col++ {
+	for row := initialRow; row <= limitRow; row++ {
+		for col := initialCol; col <= limitCol; col++ {
 			if g.CellsGrid[y+row][x+col] {
 				count++
 			}
@@ -117,7 +120,7 @@ func (g *Game) countLiveNeighbors(y, x int) int {
 	return count
 }
 
-// stayAlive contains validates if a cell will live, keep alive, die or stay dead in the next generation.
+// live validates if a cell will turn to life, keep alive, die or stay dead in the next generation.
 // Receives the current state of a cell and all the live neighbors to determinate the
 // cell's next generation state.
 // Conway's Game Of Life ruleset work as it follows:
@@ -125,7 +128,7 @@ func (g *Game) countLiveNeighbors(y, x int) int {
 // 2. Any live cell with two or three live neighbours lives on to the next generation.
 // 3. Any live cell with more than three live neighbours dies, as if by overpopulation.
 // 4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
-func stayAlive(currentCellState bool, liveNeighbors int) bool {
+func live(currentCellState bool, liveNeighbors int) bool {
 
 	var nextState bool
 
@@ -141,4 +144,20 @@ func stayAlive(currentCellState bool, liveNeighbors int) bool {
 	}
 
 	return nextState
+}
+
+func lowerEdge(y int) bool {
+	return y == 0
+}
+
+func leftEdge(x int) bool {
+	return x == 0
+}
+
+func upperEdge(y, height int) bool {
+	return y == height-1
+}
+
+func rightEdge(x, width int) bool {
+	return x == width-1
 }

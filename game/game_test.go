@@ -157,37 +157,37 @@ func TestStayAlive(t *testing.T) {
 	assert := assert.New(t)
 
 	t.Run("Should return `false` When state is `false` & got less than 2 live neighbors", func(t *testing.T) {
-		actualState := stayAlive(false, 1)
+		actualState := live(false, 1)
 
 		assert.False(actualState)
 	})
 
 	t.Run("Should return `true` When state is `false` & got 3 live neighbors", func(t *testing.T) {
-		actualState := stayAlive(false, 3)
+		actualState := live(false, 3)
 
 		assert.True(actualState)
 	})
 
 	t.Run("Should return `false` When state is `true` & got more than 3 live neighbors", func(t *testing.T) {
-		actualState := stayAlive(true, 5)
+		actualState := live(true, 5)
 
 		assert.False(actualState)
 	})
 
 	t.Run("Should return `false` When state is `true` & got less than 2 live neighbors", func(t *testing.T) {
-		actualState := stayAlive(true, 1)
+		actualState := live(true, 1)
 
 		assert.False(actualState)
 	})
 
 	t.Run("Should return `true` When state is `true` & got 2 live neighbors", func(t *testing.T) {
-		actualState := stayAlive(true, 2)
+		actualState := live(true, 2)
 
 		assert.True(actualState)
 	})
 
 	t.Run("Should return `true` When state is `true` & got 3 live neighbors", func(t *testing.T) {
-		actualState := stayAlive(true, 3)
+		actualState := live(true, 3)
 
 		assert.True(actualState)
 	})

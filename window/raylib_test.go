@@ -10,7 +10,7 @@ func TestNew(t *testing.T) {
 	assert := assert.New(t)
 
 	t.Run("Should return correctly a new window instance When New,5,5,1,'test')", func(t *testing.T) {
-		expectedWindow := &Window{
+		expectedWindow := &Raylib{
 			Title:  "test",
 			Width:  int32(5),
 			Height: int32(5),
@@ -24,7 +24,7 @@ func TestNew(t *testing.T) {
 	})
 
 	t.Run("Should assign default title When title is empty", func(t *testing.T) {
-		expectedWindow := &Window{
+		expectedWindow := &Raylib{
 			Title:  "Game of Life",
 			Width:  int32(5),
 			Height: int32(5),

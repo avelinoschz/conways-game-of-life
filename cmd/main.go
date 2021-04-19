@@ -9,13 +9,19 @@ import (
 	"github.com/avelinoschz/conways-game-of-life/window"
 )
 
-const TITLE = "Game of Life"
-const SCREEN_WIDTH = 900
-const SCREEN_HEIGHT = 900
-const FPS = 1
+// Default window values
+const (
+	TITLE         = "Game of Life"
+	SCREEN_WIDTH  = 900
+	SCREEN_HEIGHT = 900
+	FPS           = 1
+)
 
-const BOARD_WIDTH = 30
-const BOARD_HEIGHT = 30
+// Default game grid values
+const (
+	GAME_GRID_WIDTH  = 30
+	GAME_GRID_HEIGHT = 30
+)
 
 func main() {
 	if err := run(); err != nil {
@@ -33,7 +39,7 @@ func run() error {
 	}
 	window.Setup()
 
-	game, err := game.New(BOARD_WIDTH, BOARD_HEIGHT)
+	game, err := game.New(GAME_GRID_WIDTH, GAME_GRID_HEIGHT)
 	if err != nil {
 		return err
 	}
