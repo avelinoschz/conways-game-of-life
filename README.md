@@ -24,11 +24,13 @@ go version go1.13.4 linux/amd64
 
 - [raylib](https://github.com/gen2brain/raylib-go)
 
+To install it, use the following command:
+
 ```shell
 go get -v -u github.com/gen2brain/raylib-go/raylib
 ```
 
-The library needs a couple of packages that need to be installed before to work. For further and more detailed instructions, you can follow directly the instructions directly on it's Github, as it depends on your Operative System.
+The library needs a couple of packages that need to be installed beforehand to work. For further and more detailed instructions, you can follow directly the instructions directly on it's Github, as it depends on your Operative System.
 
 The rest of the dependencies are handled by `go mod` itself. If you are having trouble with them, you can use `go mod download` to install the packages.
 
@@ -42,11 +44,11 @@ In order to run the project, you have to use the following command:
 go run cmd/main.go
 ```
 
-And that's it!
+***And that's it!***
 
 If dependencies are correctly installed, you will see a working *(and mesmerizing)* cellular automata in action.
 
-Disclaimer: For now, the only way to change the Game's configuration is by changing the default values in main. Next version will support the usage of flags to modify it's execution
+Disclaimer: For now, the only way to change the Game's configuration is by changing the default values in main. Next version will support the usage of flags to modify it's execution.
 
 ## Samples
 
